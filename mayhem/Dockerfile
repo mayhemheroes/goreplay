@@ -1,9 +1,12 @@
-# Build in a stock Go builder container
-FROM fuzzers/go-fuzz:1.2.0 as builder
+FROM golang:1.25 AS builder
+
+RUN apt-get update && apt-get install -y clang
 
 ADD . /goreplay
 WORKDIR /goreplay
 
+RUN go install github.com/dvyukov/go-fuzz/go-fuzz@latest github.com/dvyukov/go-fuzz/go-fuzz-build@latest
+RUN go get github.com/dvyukov/go-fuzz/go-fuzz-dep
 RUN cd proto && GO_ENABLED=0 go-fuzz-build -libfuzzer -o fuzz.a .
 RUN cd proto && clang -fsanitize=fuzzer fuzz.a -o fuzz.libfuzzer
 

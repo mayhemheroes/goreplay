@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  FSPATH_MAYHEMFILE: mayhem/fspath.Mayhemfile
+  FSPATH_MAYHEMFILE: mayhem/Mayhemfile
 
 jobs:
   build:
